@@ -134,9 +134,6 @@ function VerticalCarousel({
     const el = scrollRef.current
     if (!el) return
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
-
     let paused = false
     let resumeTimer: number | undefined
     let raf = 0
@@ -150,7 +147,9 @@ function VerticalCarousel({
     }
 
     const tick = (ts: number) => {
-      const dt = (ts - lastTs) / 1000
+      // Clampa pra evitar saltos gigantes quando o browser throttla o rAF
+      // (ex: iOS em low-power, aba inativa, primeiro frame).
+      const dt = Math.min((ts - lastTs) / 1000, 0.1)
       lastTs = ts
 
       if (!paused && el.scrollWidth > el.clientWidth) {
