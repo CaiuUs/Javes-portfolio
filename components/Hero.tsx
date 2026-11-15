@@ -1,5 +1,4 @@
 import JavesMark from './JavesMark'
-import JavesWordmark from './JavesWordmark'
 import HeroShowreel from './HeroShowreel'
 
 export default function Hero() {
@@ -21,18 +20,7 @@ export default function Hero() {
         <JavesMark />
       </div>
 
-      {/* Main mark */}
-      <JavesMark className="hero-mark" />
-
-      {/* <p> entry animation; inner <span> runs shimmer independently */}
-      <p className="hero-eyebrow">
-        <span className="grad-text-shimmer hero-eyebrow-text">Video Marketing</span>
-      </p>
-
-      <h1 id="hero-title" className="hero-title">
-        <span className="sr-only">JAVES</span>
-        <JavesWordmark />
-      </h1>
+      <h1 id="hero-title" className="sr-only">JAVES Videomarketing</h1>
 
       <p className="hero-tagline">Histórias que conquistam mercado.</p>
 

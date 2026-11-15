@@ -95,49 +95,6 @@ body {
   height: auto;
 }
 
-.hero-mark {
-  position: relative;
-  z-index: 1;
-  width: 56px;
-  height: auto;
-  margin-bottom: 44px;
-  filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.07));
-  animation: mark-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.hero-eyebrow {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 20px;
-  animation: hero-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
-}
-
-.hero-eyebrow-text {
-  font-family: var(--font-ui);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-}
-
-.hero-title {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto 24px;
-  color: var(--fg);
-  font-size: 0;
-  line-height: 0;
-  animation: hero-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
-}
-
-.hero-title svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
 .hero-tagline {
   position: relative;
   z-index: 1;
@@ -688,30 +645,35 @@ button.portfolio-card {
 
 .partners-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin-top: 48px;
 }
 
 .partner-item {
-  aspect-ratio: 2/1;
-  border: 1px solid var(--border);
-  border-radius: 3px;
+  aspect-ratio: 2.35/1;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0b0b0b;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.2s;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  filter: grayscale(0.15) brightness(0.95);
 }
 
-.partner-item:hover { border-color: rgba(255,255,255,0.18); }
+.partner-item:hover {
+  transform: translateY(-2px);
+  filter: grayscale(0) brightness(1);
+}
 
-.partner-item span {
-  font-family: var(--font-ui);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
+.partner-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  padding: 10px;
 }
 
 /* ——— Quem Somos ——— */
@@ -928,11 +890,6 @@ footer .inner {
 
 /* ——— Animations ——— */
 
-@keyframes mark-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
 @keyframes hero-in {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -986,7 +943,6 @@ footer .inner {
 
   /* Hero */
   .hero-root        { padding: 72px 20px; }
-  .hero-mark        { width: 48px; margin-bottom: 36px; }
   .hero-watermark svg { width: 75%; }
   .hero-tagline     { font-size: 16px; }
   .hero-video       { margin-top: 44px; }
@@ -1037,10 +993,7 @@ footer .inner {
 
   /* Hero */
   .hero-root        { padding: 56px 16px; min-height: 92vh; }
-  .hero-mark        { width: 42px; margin-bottom: 28px; }
   .hero-watermark svg { width: 88%; }
-  .hero-eyebrow-text { font-size: 10px; letter-spacing: 0.26em; }
-  .hero-title       { max-width: 200px; margin-bottom: 18px; }
   .hero-tagline     { font-size: 14.5px; max-width: 300px; }
   .hero-video       { margin-top: 32px; border-radius: 3px; }
   .hv-play          { width: 54px; height: 54px; }
@@ -1048,8 +1001,7 @@ footer .inner {
   .hv-label         { font-size: 9px; letter-spacing: 0.26em; }
 
   /* Partners */
-  .partner-item     { aspect-ratio: 2.2 / 1; }
-  .partner-item span { font-size: 10px; letter-spacing: 0.1em; }
+  .partner-item     { aspect-ratio: 2.35/1; }
 
   /* Portfolio cards */
   .card-info        { padding: 14px 16px 16px; }
@@ -1079,8 +1031,6 @@ footer .inner {
 
 /* Ultra-pequeno — smartphones compactos */
 @media (max-width: 380px) {
-  .hero-mark        { width: 38px; }
-  .hero-title       { max-width: 170px; }
   .hero-tagline     { font-size: 13.5px; }
   .partners-grid    { grid-template-columns: 1fr; }
 }
