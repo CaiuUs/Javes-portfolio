@@ -1,24 +1,35 @@
 'use client'
 
 import { useEffect } from 'react'
+import type { Provider, Aspect } from './portfolio-cards'
 
-type Aspect = 'vertical' | 'horizontal'
+interface OpenVideo {
+  id: string
+  provider: Provider
+  aspect: Aspect
+}
 
 interface Props {
-  videoId: string | null
-  aspect?: Aspect
+  video: OpenVideo | null
   onClose: () => void
 }
 
+function embedUrl({ id, provider }: OpenVideo): string {
+  if (provider === 'youtube') {
+    return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`
+  }
+  return `https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0`
+}
+
 /**
- * Lightbox para reprodução de vídeos do YouTube em modal fullscreen.
- * - Travado quando videoId === null (não renderiza nada).
+ * Lightbox para reprodução de vídeos do YouTube e Vimeo em modal fullscreen.
+ * - Travado quando video === null (não renderiza nada).
  * - ESC ou clique fora do player fecha.
  * - Trava scroll do body enquanto aberto.
  */
-export default function VideoLightbox({ videoId, aspect = 'horizontal', onClose }: Props) {
+export default function VideoLightbox({ video, onClose }: Props) {
   useEffect(() => {
-    if (!videoId) return
+    if (!video) return
 
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -32,11 +43,9 @@ export default function VideoLightbox({ videoId, aspect = 'horizontal', onClose 
       document.body.style.overflow = previousOverflow
       document.removeEventListener('keydown', onKey)
     }
-  }, [videoId, onClose])
+  }, [video, onClose])
 
-  if (!videoId) return null
-
-  const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
+  if (!video) return null
 
   return (
     <div
@@ -57,9 +66,13 @@ export default function VideoLightbox({ videoId, aspect = 'horizontal', onClose 
         </svg>
       </button>
 
-      <div className="video-lightbox-player" data-aspect={aspect} onClick={(e) => e.stopPropagation()}>
+      <div
+        className="video-lightbox-player"
+        data-aspect={video.aspect}
+        onClick={(e) => e.stopPropagation()}
+      >
         <iframe
-          src={src}
+          src={embedUrl(video)}
           title="Vídeo JAVES Videomarketing"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
