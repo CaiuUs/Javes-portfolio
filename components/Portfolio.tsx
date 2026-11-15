@@ -14,23 +14,20 @@ const FILTERS: { label: string; value: Category }[] = [
 ]
 
 /**
- * IMPORTANTE: troque o youtubeId de cada card pelo ID real do vídeo no YouTube.
- * Ex: em https://www.youtube.com/watch?v=dQw4w9WgXcQ → youtubeId: 'dQw4w9WgXcQ'
+ * Para Shorts do YouTube: a URL youtube.com/shorts/ABC123 usa o mesmo ID
+ * ABC123 que seria usado em youtube.com/watch?v=ABC123. Basta colar o ID.
  */
 interface Card {
   title: string
-  category: Category
+  category: Exclude<Category, '*'>
   pill: string
   youtubeId: string
 }
 
 const CARDS: Card[] = [
-  { title: 'Fernanda & Rafael',             category: 'casamento',   pill: 'Casamento',   youtubeId: 'dQw4w9WgXcQ' },
-  { title: 'Ana & Pedro',                   category: 'casamento',   pill: 'Casamento',   youtubeId: 'dQw4w9WgXcQ' },
-  { title: 'Horizonte Construtora',         category: 'corporativo', pill: 'Corporativo', youtubeId: 'dQw4w9WgXcQ' },
-  { title: 'Nexus Tecnologia',              category: 'corporativo', pill: 'Corporativo', youtubeId: 'dQw4w9WgXcQ' },
-  { title: 'Boutique Mar — Campanha Verão', category: 'comercial',   pill: 'Comercial',   youtubeId: 'dQw4w9WgXcQ' },
-  { title: 'Clínica Prime Estética',        category: 'comercial',   pill: 'Comercial',   youtubeId: 'dQw4w9WgXcQ' },
+  { title: 'Fernanda & Rafael',     category: 'casamento',   pill: 'Casamento',   youtubeId: 'dQw4w9WgXcQ' },
+  { title: 'Horizonte Construtora', category: 'corporativo', pill: 'Corporativo', youtubeId: 'dQw4w9WgXcQ' },
+  { title: 'Boutique Mar',          category: 'comercial',   pill: 'Comercial',   youtubeId: 'dQw4w9WgXcQ' },
 ]
 
 export default function Portfolio() {
@@ -72,7 +69,7 @@ export default function Portfolio() {
               <div className="card-thumb">
                 <img
                   className="thumb-img"
-                  src={`https://img.youtube.com/vi/${card.youtubeId}/maxresdefault.jpg`}
+                  src={`https://img.youtube.com/vi/${card.youtubeId}/hqdefault.jpg`}
                   alt=""
                   loading="lazy"
                   aria-hidden="true"

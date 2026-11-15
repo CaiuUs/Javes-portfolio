@@ -523,7 +523,7 @@ button.portfolio-card {
 
 .card-thumb {
   position: relative;
-  aspect-ratio: 16/9;
+  aspect-ratio: 9/16;
   overflow: hidden;
 }
 
@@ -814,9 +814,10 @@ footer .inner {
 
 .video-lightbox-player {
   position: relative;
-  width: 100%;
-  max-width: 1200px;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 9 / 16;
+  width: auto;
+  height: min(90vh, 900px);
+  max-width: 100%;
   border-radius: 6px;
   overflow: hidden;
   background: #000;
@@ -976,7 +977,7 @@ footer .inner {
   .contato-whatsapp { padding: 14px 26px; font-size: 13px; gap: 10px; }
   .contato-whatsapp svg { width: 18px; height: 18px; }
 
-  .portfolio-grid { grid-template-columns: 1fr; gap: 14px; }
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .partners-grid  { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 32px; }
   .qs-top         { gap: 32px; margin-bottom: 48px; }
 
