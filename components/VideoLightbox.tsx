@@ -2,8 +2,11 @@
 
 import { useEffect } from 'react'
 
+type Aspect = 'vertical' | 'horizontal'
+
 interface Props {
   videoId: string | null
+  aspect?: Aspect
   onClose: () => void
 }
 
@@ -13,7 +16,7 @@ interface Props {
  * - ESC ou clique fora do player fecha.
  * - Trava scroll do body enquanto aberto.
  */
-export default function VideoLightbox({ videoId, onClose }: Props) {
+export default function VideoLightbox({ videoId, aspect = 'horizontal', onClose }: Props) {
   useEffect(() => {
     if (!videoId) return
 
@@ -54,7 +57,7 @@ export default function VideoLightbox({ videoId, onClose }: Props) {
         </svg>
       </button>
 
-      <div className="video-lightbox-player" onClick={(e) => e.stopPropagation()}>
+      <div className="video-lightbox-player" data-aspect={aspect} onClick={(e) => e.stopPropagation()}>
         <iframe
           src={src}
           title="Vídeo JAVES Videomarketing"
