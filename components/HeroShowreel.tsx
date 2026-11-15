@@ -1,22 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import type { Provider } from './portfolio-cards'
+import { embedUrl } from './video-thumb'
 
-/**
- * IMPORTANTE: troque SHOWREEL_ID pelo ID do vídeo do showreel no YouTube.
- * Ex: em https://www.youtube.com/watch?v=dQw4w9WgXcQ o ID é "dQw4w9WgXcQ"
- */
-const SHOWREEL_ID = 'tKN6UkhNW0E'
+interface Props {
+  provider: Provider
+  id: string
+  thumbUrl: string
+  label?: string
+}
 
-export default function HeroShowreel() {
+export default function HeroShowreel({ provider, id, thumbUrl, label = 'Showreel · 2026' }: Props) {
   const [playing, setPlaying] = useState(false)
 
   if (playing) {
-    const embedSrc = `https://www.youtube.com/embed/${SHOWREEL_ID}?autoplay=1&rel=0&modestbranding=1`
     return (
       <div className="hero-video hero-video-playing">
         <iframe
-          src={embedSrc}
+          src={embedUrl(provider, id)}
           title="Showreel JAVES Videomarketing"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
@@ -33,8 +35,6 @@ export default function HeroShowreel() {
     )
   }
 
-  const thumbnail = `https://img.youtube.com/vi/${SHOWREEL_ID}/maxresdefault.jpg`
-
   return (
     <button
       type="button"
@@ -42,13 +42,15 @@ export default function HeroShowreel() {
       aria-label="Assistir showreel"
       onClick={() => setPlaying(true)}
     >
-      <img
-        className="hero-video-thumb"
-        src={thumbnail}
-        alt=""
-        loading="lazy"
-        aria-hidden="true"
-      />
+      {thumbUrl && (
+        <img
+          className="hero-video-thumb"
+          src={thumbUrl}
+          alt=""
+          loading="lazy"
+          aria-hidden="true"
+        />
+      )}
       <div className="hero-video-vignette" aria-hidden="true" />
 
       <span className="hv-play" aria-hidden="true">
@@ -57,7 +59,7 @@ export default function HeroShowreel() {
         </svg>
       </span>
 
-      <span className="hv-label" aria-hidden="true">Showreel · 2026</span>
+      <span className="hv-label" aria-hidden="true">{label}</span>
     </button>
   )
 }

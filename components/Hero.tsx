@@ -1,7 +1,15 @@
 import JavesMark from './JavesMark'
 import HeroShowreel from './HeroShowreel'
+import { resolveThumb } from './video-thumb'
 
-export default function Hero() {
+const SHOWREEL = {
+  provider: 'vimeo' as const,
+  id: '1246909163', // Pré Wedding — Raquel & Vinícius
+}
+
+export default async function Hero() {
+  const thumbUrl = await resolveThumb(SHOWREEL.provider, SHOWREEL.id, 'horizontal')
+
   return (
     <section className="hero-root" aria-labelledby="hero-title">
       {/* Background glow */}
@@ -24,7 +32,11 @@ export default function Hero() {
 
       <p className="hero-tagline">Histórias que conquistam mercado.</p>
 
-      <HeroShowreel />
+      <HeroShowreel
+        provider={SHOWREEL.provider}
+        id={SHOWREEL.id}
+        thumbUrl={thumbUrl}
+      />
     </section>
   )
 }

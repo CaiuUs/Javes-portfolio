@@ -22,7 +22,7 @@ export interface EnrichedCard extends Card {
 
 export const CARDS: Card[] = [
   // ——— Verticais (Shorts / Reels) ———
-  { title: 'Fernanda & Rafael',          category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'Ruz1OX7F3RE', aspect: 'vertical' },
+  { title: 'Jantar de Noivado — K & W',  category: 'casamento',   pill: 'Casamento',   provider: 'vimeo',   id: '1246985919', aspect: 'vertical' },
   { title: 'Campanha Copa do Mundo',     category: 'comercial',   pill: 'Comercial',   provider: 'vimeo',   id: '1246909161', aspect: 'vertical' },
   { title: 'Jantar de Negócios — OULAB', category: 'corporativo', pill: 'Corporativo', provider: 'vimeo',   id: '1246909162', aspect: 'vertical' },
   { title: 'Adriana — 42 Anos',          category: 'comercial',   pill: 'Comercial',   provider: 'vimeo',   id: '1246910112', aspect: 'vertical' },
@@ -30,5 +30,5 @@ export const CARDS: Card[] = [
 
   // ——— Horizontais (16:9) ———
   { title: 'Mikael & Sara',              category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'CKByXAnNgX0', aspect: 'horizontal' },
-  { title: 'Pré Wedding — Raquel & Vinícius', category: 'casamento', pill: 'Casamento', provider: 'vimeo', id: '1246909163', aspect: 'horizontal' },
+  { title: 'Formatura — Ana Clara',      category: 'comercial',   pill: 'Comercial',   provider: 'youtube', id: 'tKN6UkhNW0E', aspect: 'horizontal' },
 ]
