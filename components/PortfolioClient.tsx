@@ -162,20 +162,14 @@ function VerticalCarousel({
     }
     raf = requestAnimationFrame(tick)
 
-    // Hover-pause so em dispositivos com mouse real. Em touch, o mouseleave
-    // nao dispara de forma confiavel e o carrossel ficaria preso em pausa.
-    const hasHover = window.matchMedia('(hover: hover)').matches
-
     const onEnter = () => { paused = true; window.clearTimeout(resumeTimer) }
     const onLeave = () => { paused = false }
     const onInteract = () => pause()
 
-    if (hasHover) {
-      el.addEventListener('mouseenter', onEnter)
-      el.addEventListener('mouseleave', onLeave)
-    }
-    el.addEventListener('focusin',     onEnter)
-    el.addEventListener('focusout',    onLeave)
+    el.addEventListener('mouseenter', onEnter)
+    el.addEventListener('mouseleave', onLeave)
+    el.addEventListener('focusin',    onEnter)
+    el.addEventListener('focusout',   onLeave)
     el.addEventListener('pointerdown', onInteract)
     el.addEventListener('wheel',       onInteract, { passive: true })
     el.addEventListener('touchstart',  onInteract, { passive: true })
@@ -183,12 +177,10 @@ function VerticalCarousel({
     return () => {
       cancelAnimationFrame(raf)
       window.clearTimeout(resumeTimer)
-      if (hasHover) {
-        el.removeEventListener('mouseenter', onEnter)
-        el.removeEventListener('mouseleave', onLeave)
-      }
-      el.removeEventListener('focusin',     onEnter)
-      el.removeEventListener('focusout',    onLeave)
+      el.removeEventListener('mouseenter', onEnter)
+      el.removeEventListener('mouseleave', onLeave)
+      el.removeEventListener('focusin',    onEnter)
+      el.removeEventListener('focusout',   onLeave)
       el.removeEventListener('pointerdown', onInteract)
       el.removeEventListener('wheel',       onInteract)
       el.removeEventListener('touchstart',  onInteract)

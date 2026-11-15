@@ -503,8 +503,6 @@ button.hero-video {
   -ms-overflow-style: none;
   margin-bottom: 36px;
   padding: 4px 0;
-  touch-action: pan-x;
-  -webkit-overflow-scrolling: touch;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0,
