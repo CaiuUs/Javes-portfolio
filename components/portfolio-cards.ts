@@ -21,13 +21,14 @@ export interface EnrichedCard extends Card {
 }
 
 export const CARDS: Card[] = [
-  { title: 'Fernanda & Rafael',     category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'Ruz1OX7F3RE', aspect: 'vertical' },
-  { title: 'Ana & Pedro',           category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'dQw4w9WgXcQ', aspect: 'vertical' },
-  { title: 'Lucas & Mariana',       category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'dQw4w9WgXcQ', aspect: 'vertical' },
-  { title: 'Boutique Mar',          category: 'comercial',   pill: 'Comercial',   provider: 'youtube', id: 'dQw4w9WgXcQ', aspect: 'vertical' },
-  { title: 'Clínica Prime',         category: 'comercial',   pill: 'Comercial',   provider: 'youtube', id: 'dQw4w9WgXcQ', aspect: 'vertical' },
-  { title: 'Campanha Copa do Mundo', category: 'comercial',  pill: 'Comercial',   provider: 'vimeo',   id: '1246909161',  aspect: 'vertical' },
-  { title: 'Mikael & Sara',         category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'CKByXAnNgX0', aspect: 'horizontal' },
-  { title: 'Horizonte Construtora', category: 'corporativo', pill: 'Corporativo', provider: 'youtube', id: 'dQw4w9WgXcQ', aspect: 'horizontal' },
-  { title: 'Nexus Tecnologia',      category: 'corporativo', pill: 'Corporativo', provider: 'youtube', id: 'dQw4w9WgXcQ', aspect: 'horizontal' },
+  // ——— Verticais (Shorts / Reels) ———
+  { title: 'Fernanda & Rafael',          category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'Ruz1OX7F3RE', aspect: 'vertical' },
+  { title: 'Campanha Copa do Mundo',     category: 'comercial',   pill: 'Comercial',   provider: 'vimeo',   id: '1246909161', aspect: 'vertical' },
+  { title: 'Jantar de Negócios — OULAB', category: 'corporativo', pill: 'Corporativo', provider: 'vimeo',   id: '1246909162', aspect: 'vertical' },
+  { title: 'Adriana — 42 Anos',          category: 'comercial',   pill: 'Comercial',   provider: 'vimeo',   id: '1246910112', aspect: 'vertical' },
+  { title: 'Isabella Vasconcellos — 50%', category: 'comercial',  pill: 'Comercial',   provider: 'vimeo',   id: '1246909886', aspect: 'vertical' },
+
+  // ——— Horizontais (16:9) ———
+  { title: 'Mikael & Sara',              category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'CKByXAnNgX0', aspect: 'horizontal' },
+  { title: 'Pré Wedding — Raquel & Vinícius', category: 'casamento', pill: 'Casamento', provider: 'vimeo', id: '1246909163', aspect: 'horizontal' },
 ]
