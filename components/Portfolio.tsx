@@ -28,11 +28,12 @@ interface Card {
 }
 
 const CARDS: Card[] = [
-  { title: 'Fernanda & Rafael',     category: 'casamento',   pill: 'Casamento',   youtubeId: 'dQw4w9WgXcQ', aspect: 'vertical' },
+  { title: 'Fernanda & Rafael',     category: 'casamento',   pill: 'Casamento',   youtubeId: 'Ruz1OX7F3RE', aspect: 'vertical' },
   { title: 'Ana & Pedro',           category: 'casamento',   pill: 'Casamento',   youtubeId: 'dQw4w9WgXcQ', aspect: 'vertical' },
   { title: 'Lucas & Mariana',       category: 'casamento',   pill: 'Casamento',   youtubeId: 'dQw4w9WgXcQ', aspect: 'vertical' },
   { title: 'Boutique Mar',          category: 'comercial',   pill: 'Comercial',   youtubeId: 'dQw4w9WgXcQ', aspect: 'vertical' },
   { title: 'Clínica Prime',         category: 'comercial',   pill: 'Comercial',   youtubeId: 'dQw4w9WgXcQ', aspect: 'vertical' },
+  { title: 'Mikael & Sara',           category: 'casamento',   pill: 'Casamento',   youtubeId: 'CKByXAnNgX0', aspect: 'horizontal' },
   { title: 'Horizonte Construtora', category: 'corporativo', pill: 'Corporativo', youtubeId: 'dQw4w9WgXcQ', aspect: 'horizontal' },
   { title: 'Nexus Tecnologia',      category: 'corporativo', pill: 'Corporativo', youtubeId: 'dQw4w9WgXcQ', aspect: 'horizontal' },
 ]
