@@ -6,7 +6,7 @@
  * (55 = Brasil, 11 = DDD, resto = número).
  */
 const WHATSAPP_PHONE = '559484297374'
-const WHATSAPP_MESSAGE = 'Quero fazer um orçamento'
+const WHATSAPP_MESSAGE = 'Olá Jota, gostaria de fazer um orçamento de vídeo'
 
 export default function ContactSection() {
   const href = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
