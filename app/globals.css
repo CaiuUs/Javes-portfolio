@@ -531,20 +531,6 @@ button.hero-video {
   -ms-overflow-style: none;
   margin-bottom: 36px;
   padding: 4px 0;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 48px,
-    #000 calc(100% - 48px),
-    transparent 100%
-  );
-          mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 48px,
-    #000 calc(100% - 48px),
-    transparent 100%
-  );
 }
 
 .portfolio-carousel::-webkit-scrollbar { display: none; }
