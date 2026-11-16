@@ -221,11 +221,84 @@ button.hero-video {
   padding-bottom: 20px;
 }
 
-.site-nav {
+.site-nav-desktop {
   display: flex;
   align-items: center;
   gap: 32px;
   list-style: none;
+}
+
+/* ——— Mobile nav overlay (renderizado via Portal no body) ——— */
+
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 96px 24px 40px;
+  background: #121212;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: nav-fade 0.22s ease-out both;
+}
+
+.mobile-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.mobile-nav-list li { width: 100%; text-align: center; }
+
+.mobile-nav-link {
+  display: block;
+  padding: 14px 24px;
+  font-family: var(--font-ui);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--fg);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:focus-visible {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.mobile-nav-cta {
+  margin-top: auto;
+  padding: 14px 42px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.mobile-nav-cta:hover,
+.mobile-nav-cta:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+@keyframes nav-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .nav-link {
@@ -947,46 +1020,9 @@ footer .inner {
   .hv-play          { width: 64px; height: 64px; }
   .hv-play svg      { width: 16px; height: 20px; }
 
-  /* Header mobile nav — overlay fullscreen estilo app */
-  .nav-toggle     { display: flex !important; }
-  .site-nav {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 40;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 24px;
-    background: #121212;
-    padding: 120px 24px 48px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
-  }
-  .site-nav.nav-open    { display: flex; }
-  .site-nav li          { width: auto; text-align: center; list-style: none; }
-  .site-nav a           {
-    display: block;
-    font-family: var(--font-ui);
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    padding: 8px 24px;
-    border-bottom: none;
-    color: var(--fg);
-    text-transform: none;
-  }
-  .site-nav li:last-child a { border-bottom: none; }
-  .nav-cta              { margin-top: auto; }
-  .nav-cta a            {
-    padding: 14px 40px;
-    border: 1px solid rgba(255,255,255,0.22);
-    border-radius: 100px;
-    background: rgba(255,255,255,0.06);
-    color: var(--fg);
-    font-size: 13px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
+  /* Header mobile — esconde menu desktop e revela o hamburger */
+  .nav-toggle        { display: flex !important; }
+  .site-nav-desktop  { display: none; }
 }
 
 /* Mobile */
