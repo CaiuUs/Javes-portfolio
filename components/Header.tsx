@@ -3,23 +3,45 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 
-const NAV_ITEMS = [
-  { id: 'trabalhos', label: 'Trabalhos' },
-  { id: 'parceiros', label: 'Parceiros' },
-  { id: 'quem-somos', label: 'Quem Somos' },
+type NavItem =
+  | { kind: 'section'; id: string; label: string }
+  | { kind: 'page'; href: string; label: string }
+
+const NAV_ITEMS: NavItem[] = [
+  { kind: 'section', id: 'trabalhos',  label: 'Trabalhos' },
+  { kind: 'section', id: 'parceiros',  label: 'Parceiros' },
+  { kind: 'page',    href: '/quem-somos', label: 'Quem Somos' },
 ]
+
+const CTA = { id: 'contato', label: 'Contato' }
 
 export default function Header() {
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const pathname = usePathname()
+  const router = useRouter()
+  const isHome = pathname === '/'
 
+  useEffect(() => { setMounted(true) }, [])
+
+  // Quando aterrisamos na home vindos de outra pagina com uma secao alvo,
+  // rolamos pra la via sessionStorage (sem precisar sujar a URL com hash).
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    if (!isHome) return
+    const target = sessionStorage.getItem('scrollTo')
+    if (!target) return
+    sessionStorage.removeItem('scrollTo')
+    const el = document.getElementById(target)
+    if (!el) return
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }, [isHome])
 
-  // Limpa qualquer #hash da URL no primeiro carregamento pra evitar que
-  // recarregar a pagina role direto pra secao (ex: #contato).
+  // Limpa qualquer #hash legado da URL (ex: visitantes com link antigo salvo).
   useEffect(() => {
     if (window.location.hash) {
       history.replaceState(null, '', window.location.pathname + window.location.search)
@@ -28,8 +50,6 @@ export default function Header() {
   }, [])
 
   // Trava o scroll do body enquanto o overlay do menu estiver aberto.
-  // iOS Safari ignora overflow:hidden em muitos casos — tecnica mais robusta
-  // eh fixar o body e compensar a posicao de scroll.
   useEffect(() => {
     if (!open) return
     const scrollY = window.scrollY
@@ -53,14 +73,20 @@ export default function Header() {
     }
   }, [open])
 
-  const go = (id: string) => (e: React.MouseEvent) => {
+  const goToSection = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault()
     setOpen(false)
-    // Da um tick pro overlay fechar e o body desbloquear antes de rolar
-    requestAnimationFrame(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
+    if (isHome) {
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    } else {
+      sessionStorage.setItem('scrollTo', id)
+      router.push('/')
+    }
   }
+
+  const closeMenu = () => setOpen(false)
 
   return (
     <>
@@ -74,13 +100,15 @@ export default function Header() {
         }}
       >
         <div className="inner site-header-inner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Image
-            src="/svg/javes-logo-branco.svg"
-            alt="JAVES Videomarketing"
-            width={120}
-            height={26}
-            priority
-          />
+          <Link href="/" aria-label="JAVES — ir para o inicio" onClick={closeMenu}>
+            <Image
+              src="/svg/javes-logo-branco.svg"
+              alt="JAVES Videomarketing"
+              width={120}
+              height={26}
+              priority
+            />
+          </Link>
 
           <nav aria-label="Navegação principal">
             <button
@@ -91,44 +119,29 @@ export default function Header() {
               aria-label={open ? 'Fechar menu' : 'Abrir menu'}
               onClick={() => setOpen(!open)}
             >
-              <span
-                style={{
-                  display: 'block', width: 18, height: 1.5,
-                  background: 'var(--fg)', borderRadius: 1,
-                  transition: 'transform 0.22s, opacity 0.22s',
-                  transform: open ? 'translateY(6.5px) rotate(45deg)' : undefined,
-                }}
-              />
-              <span
-                style={{
-                  display: 'block', width: 18, height: 1.5,
-                  background: 'var(--fg)', borderRadius: 1,
-                  transition: 'transform 0.22s, opacity 0.22s',
-                  opacity: open ? 0 : 1,
-                }}
-              />
-              <span
-                style={{
-                  display: 'block', width: 18, height: 1.5,
-                  background: 'var(--fg)', borderRadius: 1,
-                  transition: 'transform 0.22s, opacity 0.22s',
-                  transform: open ? 'translateY(-6.5px) rotate(-45deg)' : undefined,
-                }}
-              />
+              <span style={{ display: 'block', width: 18, height: 1.5, background: 'var(--fg)', borderRadius: 1, transition: 'transform 0.22s, opacity 0.22s', transform: open ? 'translateY(6.5px) rotate(45deg)' : undefined }} />
+              <span style={{ display: 'block', width: 18, height: 1.5, background: 'var(--fg)', borderRadius: 1, transition: 'transform 0.22s, opacity 0.22s', opacity: open ? 0 : 1 }} />
+              <span style={{ display: 'block', width: 18, height: 1.5, background: 'var(--fg)', borderRadius: 1, transition: 'transform 0.22s, opacity 0.22s', transform: open ? 'translateY(-6.5px) rotate(-45deg)' : undefined }} />
             </button>
 
-            {/* Menu desktop (inline) — oculto no mobile via CSS */}
+            {/* Menu desktop */}
             <ul className="site-nav-desktop">
-              {NAV_ITEMS.map(({ id, label }) => (
-                <li key={id}>
-                  <a href={`#${id}`} onClick={go(id)} className="nav-link">
-                    {label}
-                  </a>
+              {NAV_ITEMS.map((item) => (
+                <li key={item.kind === 'section' ? item.id : item.href}>
+                  {item.kind === 'section' ? (
+                    <a href={`#${item.id}`} onClick={goToSection(item.id)} className="nav-link">
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link href={item.href} onClick={closeMenu} className="nav-link">
+                      {item.label}
+                    </Link>
+                  )}
                 </li>
               ))}
               <li className="nav-cta">
-                <a href="#contato" onClick={go('contato')} className="nav-cta-link">
-                  Contato
+                <a href={`#${CTA.id}`} onClick={goToSection(CTA.id)} className="nav-cta-link">
+                  {CTA.label}
                 </a>
               </li>
             </ul>
@@ -141,16 +154,22 @@ export default function Header() {
       {mounted && open && createPortal(
         <div id="main-nav" className="mobile-nav-overlay" role="dialog" aria-modal="true">
           <ul className="mobile-nav-list">
-            {NAV_ITEMS.map(({ id, label }) => (
-              <li key={id}>
-                <a href={`#${id}`} onClick={go(id)} className="mobile-nav-link">
-                  {label}
-                </a>
+            {NAV_ITEMS.map((item) => (
+              <li key={item.kind === 'section' ? item.id : item.href}>
+                {item.kind === 'section' ? (
+                  <a href={`#${item.id}`} onClick={goToSection(item.id)} className="mobile-nav-link">
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link href={item.href} onClick={closeMenu} className="mobile-nav-link">
+                    {item.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
-          <a href="#contato" onClick={go('contato')} className="mobile-nav-cta">
-            Contato
+          <a href={`#${CTA.id}`} onClick={goToSection(CTA.id)} className="mobile-nav-cta">
+            {CTA.label}
           </a>
         </div>,
         document.body,
