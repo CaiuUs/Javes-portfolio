@@ -73,8 +73,6 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: 100vh;
-  min-height: 100svh;
   padding: 80px 24px;
   overflow: hidden;
 }
@@ -949,28 +947,41 @@ footer .inner {
   .hv-play          { width: 64px; height: 64px; }
   .hv-play svg      { width: 16px; height: 20px; }
 
-  /* Header mobile nav */
+  /* Header mobile nav — overlay centralizado em tela cheia */
   .nav-toggle     { display: flex !important; }
   .site-nav {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     background: rgba(5,5,5,0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    padding: 8px 20px 16px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 24px;
   }
   .site-nav.nav-open    { display: flex; }
-  .site-nav li          { width: 100%; }
-  .site-nav a           { display: block; font-size: 13px; letter-spacing: 0.08em; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .site-nav li          { width: auto; text-align: center; }
+  .site-nav a           {
+    display: block;
+    font-size: 20px;
+    letter-spacing: 0.14em;
+    padding: 14px 24px;
+    border-bottom: none;
+    color: var(--fg);
+  }
   .site-nav li:last-child a { border-bottom: none; }
-  .nav-cta a            { border: none; border-radius: 0; padding: 14px 0; background: none; color: rgba(255,255,255,0.72); }
+  .nav-cta              { margin-top: 20px; }
+  .nav-cta a            {
+    padding: 14px 36px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    color: var(--fg);
+  }
 }
 
 /* Mobile */
@@ -992,7 +1003,7 @@ footer .inner {
   .qs-top         { gap: 32px; margin-bottom: 48px; }
 
   /* Hero */
-  .hero-root        { padding: 56px 16px; min-height: 92vh; }
+  .hero-root        { padding: 40px 16px; }
   .hero-watermark svg { width: 88%; }
   .hero-tagline     { font-size: 14.5px; max-width: 300px; }
   .hero-video       { margin-top: 32px; border-radius: 3px; }

@@ -9,7 +9,7 @@ export default function Header() {
 
   return (
     <header
-      className="sticky top-0 z-10 border-b"
+      className="sticky top-0 z-50 border-b"
       style={{
         background: 'rgba(5,5,5,0.82)',
         backdropFilter: 'blur(20px)',
