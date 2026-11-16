@@ -700,14 +700,28 @@ button.portfolio-card {
   padding-bottom: 80px;
 }
 
-.partners-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+.partners-carousel {
   margin-top: 48px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+}
+
+.partners-carousel::-webkit-scrollbar { display: none; }
+
+.partners-carousel-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding: 4px 24px;
 }
 
 .partner-item {
+  flex: 0 0 220px;
+  width: 220px;
   aspect-ratio: 2.35/1;
   border-radius: 6px;
   overflow: hidden;
@@ -992,7 +1006,6 @@ footer .inner {
   .section-title    { margin-bottom: 32px; }
 
   .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .partners-grid  { grid-template-columns: repeat(3, 1fr); }
 
   /* Quem Somos — texto em cima, foto embaixo */
   .qs-top         { grid-template-columns: 1fr; gap: 40px; margin-bottom: 56px; }
@@ -1026,7 +1039,8 @@ footer .inner {
   .portfolio-grid { grid-template-columns: 1fr; gap: 14px; }
   .portfolio-carousel-track { gap: 14px; }
   .portfolio-carousel .portfolio-card { flex-basis: 200px; width: 200px; }
-  .partners-grid  { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 32px; }
+  .partners-carousel-track { gap: 12px; padding: 4px 16px; }
+  .partner-item   { flex-basis: 180px; width: 180px; }
   .qs-top         { gap: 32px; margin-bottom: 48px; }
 
   /* Hero */
@@ -1037,9 +1051,6 @@ footer .inner {
   .hv-play          { width: 54px; height: 54px; }
   .hv-play svg      { width: 14px; height: 18px; }
   .hv-label         { font-size: 9px; letter-spacing: 0.26em; }
-
-  /* Partners */
-  .partner-item     { aspect-ratio: 2.35/1; }
 
   /* Portfolio cards */
   .card-info        { padding: 14px 16px 16px; }
@@ -1070,7 +1081,6 @@ footer .inner {
 /* Ultra-pequeno — smartphones compactos */
 @media (max-width: 380px) {
   .hero-tagline     { font-size: 13.5px; }
-  .partners-grid    { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
