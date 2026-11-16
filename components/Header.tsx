@@ -1,11 +1,42 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+
+const NAV_ITEMS = [
+  { id: 'trabalhos', label: 'Trabalhos' },
+  { id: 'parceiros', label: 'Parceiros' },
+  { id: 'quem-somos', label: 'Quem Somos' },
+]
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+
+  // Limpa qualquer #hash da URL no primeiro carregamento pra evitar que
+  // recarregar a pagina role direto pra secao (ex: #contato).
+  useEffect(() => {
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search)
+      window.scrollTo(0, 0)
+    }
+  }, [])
+
+  // Trava o scroll do body enquanto o overlay do menu estiver aberto.
+  useEffect(() => {
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [open])
+
+  const go = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault()
+    setOpen(false)
+    const target = document.getElementById(id)
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   return (
     <header
@@ -29,7 +60,7 @@ export default function Header() {
         <nav aria-label="Navegação principal" style={{ position: 'relative' }}>
           <button
             className="nav-toggle"
-            style={{ display: 'none' }}
+            style={{ display: 'none', position: 'relative', zIndex: 60 }}
             aria-expanded={open}
             aria-controls="main-nav"
             aria-label={open ? 'Fechar menu' : 'Abrir menu'}
@@ -62,21 +93,17 @@ export default function Header() {
           </button>
 
           <ul id="main-nav" className={`site-nav${open ? ' nav-open' : ''}`}>
-            {[
-              { href: '#trabalhos', label: 'Trabalhos' },
-              { href: '#parceiros',  label: 'Parceiros' },
-              { href: '#quem-somos', label: 'Quem Somos' },
-            ].map(({ href, label }) => (
-              <li key={href}>
-                <Link href={href} onClick={() => setOpen(false)} className="nav-link">
+            {NAV_ITEMS.map(({ id, label }) => (
+              <li key={id}>
+                <a href={`#${id}`} onClick={go(id)} className="nav-link">
                   {label}
-                </Link>
+                </a>
               </li>
             ))}
             <li className="nav-cta">
-              <Link href="#contato" onClick={() => setOpen(false)} className="nav-cta-link">
+              <a href="#contato" onClick={go('contato')} className="nav-cta-link">
                 Contato
-              </Link>
+              </a>
             </li>
           </ul>
         </nav>

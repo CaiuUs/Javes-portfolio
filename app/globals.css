@@ -958,9 +958,7 @@ footer .inner {
     align-items: center;
     justify-content: flex-start;
     gap: 32px;
-    background: rgba(5,5,5,0.98);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: #050505;
     padding: 120px 24px 48px;
   }
   .site-nav.nav-open    { display: flex; }
