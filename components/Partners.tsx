@@ -8,17 +8,23 @@ interface Partner {
 }
 
 const PARTNERS: Partner[] = [
-  { name: 'Real Latas',                  file: 'real-latas.jpg' },
-  { name: 'Universal Auto Center',       file: 'universal-auto-center.jpg' },
-  { name: 'Lucas Gyn — Personal Trainer', file: 'lucas-gyn.jpg' },
-  { name: 'OralFace',                    file: 'oral-face.jpg' },
-  { name: 'ZH — Casa de Carnes e Conveniência', file: 'zh-carnes.jpg' },
-  { name: 'WFIT Academia',               file: 'wfit.jpg' },
-  { name: 'Activo Contabilidade',        file: 'activo-contabilidade.jpg' },
-  { name: 'Nós & O Empresário Podcast',  file: 'nos-e-o-empresario.jpg' },
-  { name: 'Mia Bella Beauty',            file: 'mia-bella.jpg' },
-  { name: 'Nexus Studio',                file: 'nexus-studio.jpg' },
-  { name: 'Vereador Fernando Henrique',  file: 'vereador-fernando-henrique.jpg' },
+  { name: 'Gazin',                              file: 'gazin.PNG' },
+  { name: 'Real Latas',                         file: 'real-latas.png' },
+  { name: 'Universal Auto Center',              file: 'universal-auto-center.png' },
+  { name: 'OULAB',                              file: 'oulab.PNG' },
+  { name: 'Lucas Gyn — Personal Trainer',       file: 'lucas-gyn.png' },
+  { name: 'OralFace',                           file: 'oral-face.PNG' },
+  { name: 'Predileta',                          file: 'predileta.PNG' },
+  { name: 'WFIT Academia',                      file: 'wfit.PNG' },
+  { name: 'Zero Hora',                          file: 'zero-hora.PNG' },
+  { name: 'Vanelli',                            file: 'vanelli.PNG' },
+  { name: 'Activo Contabilidade',               file: 'activo-contabilidade.png' },
+  { name: 'Arlete Sampaio',                     file: 'arlete-sampaio.PNG' },
+  { name: 'Nós & O Empresário Podcast',         file: 'nos-e-o-empresario.png' },
+  { name: 'Nanda Rocha',                        file: 'nanda-rocha.PNG' },
+  { name: 'Mia Bella Beauty',                   file: 'mia-bella.png' },
+  { name: 'Nexus Studio',                       file: 'nexus-studio.png' },
+  { name: 'Vereador Fernando Henrique',         file: 'vereador-fernando-henrique.png' },
 ]
 
 export default function Partners() {

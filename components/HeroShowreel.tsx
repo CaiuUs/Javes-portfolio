@@ -19,7 +19,7 @@ export default function HeroShowreel({ provider, id, thumbUrl, label = 'Showreel
       <div className="hero-video hero-video-playing">
         <iframe
           src={embedUrl(provider, id)}
-          title="Showreel JAVES Videomarketing"
+          title="Showreel JAVES Mov Films"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           style={{

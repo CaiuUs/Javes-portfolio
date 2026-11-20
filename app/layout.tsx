@@ -24,7 +24,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'JAVES Videomarketing',
+  title: 'JAVES Mov Films',
   description: 'Produtora de vídeo marketing. Casamentos, corporativo e comercial. +500 projetos.',
 }
 
