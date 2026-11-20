@@ -26,7 +26,7 @@ export default function TeamSection() {
           <figure className="qs-photo qs-photo-couple">
             <Image
               src="/png/IMG_0658.JPEG"
-              alt="Fundadores da JAVES Videomarketing"
+              alt="Fundadores da JAVES Mov Films"
               width={800}
               height={1200}
               sizes="(max-width: 900px) 100vw, 440px"

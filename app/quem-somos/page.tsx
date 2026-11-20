@@ -1,7 +1,7 @@
 import TeamSection from '@/components/TeamSection'
 
 export const metadata = {
-  title: 'Quem Somos — JAVES Videomarketing',
+  title: 'Quem Somos — JAVES Mov Films',
   description: 'Conheça a JAVES: produtora de vídeo marketing com mais de 500 projetos entregues em casamentos, corporativo e comercial.',
 }
 

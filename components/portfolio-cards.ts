@@ -30,5 +30,6 @@ export const CARDS: Card[] = [
 
   // ——— Horizontais (16:9) ———
   { title: 'Mikael & Sara',              category: 'casamento',   pill: 'Casamento',   provider: 'youtube', id: 'CKByXAnNgX0', aspect: 'horizontal' },
+  { title: 'Edifício Itália',            category: 'corporativo', pill: 'Corporativo', provider: 'vimeo',   id: '1247726617', aspect: 'horizontal' },
   { title: 'Formatura — Ana Clara',      category: 'comercial',   pill: 'Comercial',   provider: 'youtube', id: 'tKN6UkhNW0E', aspect: 'horizontal' },
 ]

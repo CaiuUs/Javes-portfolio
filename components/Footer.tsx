@@ -12,10 +12,10 @@ export default function Footer() {
     <footer>
       <div className="inner">
         <Image
-          src="/svg/javes-logo-branco.svg"
-          alt="JAVES Videomarketing"
-          width={100}
-          height={20}
+          src="/svg/javes-mov-films-branco.svg"
+          alt="JAVES Mov Films"
+          width={120}
+          height={36}
           className="footer-logo"
         />
 
@@ -31,7 +31,7 @@ export default function Footer() {
           ))}
         </ul>
 
-        <p className="footer-copy">© 2026 @JAVES VIDEOMARKETING</p>
+        <p className="footer-copy">© 2026 @JAVES MOV FILMS</p>
       </div>
     </footer>
   )

@@ -73,7 +73,7 @@ export default function VideoLightbox({ video, onClose }: Props) {
       >
         <iframe
           src={embedUrl(video)}
-          title="Vídeo JAVES Videomarketing"
+          title="Vídeo JAVES Mov Films"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         />

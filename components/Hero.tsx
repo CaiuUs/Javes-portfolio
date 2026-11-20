@@ -28,9 +28,9 @@ export default async function Hero() {
         <JavesMark />
       </div>
 
-      <h1 id="hero-title" className="sr-only">JAVES Videomarketing</h1>
+      <h1 id="hero-title" className="sr-only">JAVES Mov Films</h1>
 
-      <p className="hero-tagline">Histórias que conquistam mercado.</p>
+      <p className="hero-tagline">Histórias que merecem ser lembradas.</p>
 
       <HeroShowreel
         provider={SHOWREEL.provider}
