@@ -8,6 +8,7 @@ interface Partner {
 }
 
 const PARTNERS: Partner[] = [
+<<<<<<< Updated upstream
   { name: 'Real Latas',                  file: 'real-latas.jpg' },
   { name: 'Universal Auto Center',       file: 'universal-auto-center.jpg' },
   { name: 'Lucas Gyn — Personal Trainer', file: 'lucas-gyn.jpg' },
@@ -19,6 +20,25 @@ const PARTNERS: Partner[] = [
   { name: 'Mia Bella Beauty',            file: 'mia-bella.jpg' },
   { name: 'Nexus Studio',                file: 'nexus-studio.jpg' },
   { name: 'Vereador Fernando Henrique',  file: 'vereador-fernando-henrique.jpg' },
+=======
+  { name: 'Gazin',                              file: 'gazin.png' },
+  { name: 'Real Latas',                         file: 'real-latas.png' },
+  { name: 'Universal Auto Center',              file: 'universal-auto-center.png' },
+  { name: 'OULAB',                              file: 'oulab.png' },
+  { name: 'Lucas Gyn — Personal Trainer',       file: 'lucas-gyn.png' },
+  { name: 'OralFace',                           file: 'oral-face.png' },
+  { name: 'Predileta',                          file: 'predileta.png' },
+  { name: 'WFIT Academia',                      file: 'wfit.png' },
+  { name: 'Zero Hora',                          file: 'zero-hora.png' },
+  { name: 'Vanelli',                            file: 'vanelli.png' },
+  { name: 'Activo Contabilidade',               file: 'activo-contabilidade.png' },
+  { name: 'Arlete Sampaio',                     file: 'arlete-sampaio.png' },
+  { name: 'Nós & O Empresário Podcast',         file: 'nos-e-o-empresario.png' },
+  { name: 'Nanda Rocha',                        file: 'nanda-rocha.png' },
+  { name: 'Mia Bella Beauty',                   file: 'mia-bella.png' },
+  { name: 'Nexus Studio',                       file: 'nexus-studio.png' },
+  { name: 'Vereador Fernando Henrique',         file: 'vereador-fernando-henrique.png' },
+>>>>>>> Stashed changes
 ]
 
 export default function Partners() {
