@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import JavesMark from './JavesMark'
 import VideoLightbox from './VideoLightbox'
 import type { Category, EnrichedCard, Provider, Aspect } from './portfolio-cards'
@@ -75,15 +75,19 @@ export default function PortfolioClient({ cards }: { cards: EnrichedCard[] }) {
 function PortfolioCard({
   card,
   onPlay,
+  ariaHidden = false,
 }: {
   card: EnrichedCard
   onPlay: (v: OpenVideo) => void
+  ariaHidden?: boolean
 }) {
   return (
     <button
       type="button"
       className="portfolio-card"
-      aria-label={`Assistir: ${card.title}`}
+      aria-label={ariaHidden ? undefined : `Assistir: ${card.title}`}
+      aria-hidden={ariaHidden ? 'true' : undefined}
+      tabIndex={ariaHidden ? -1 : undefined}
       data-category={card.category}
       data-aspect={card.aspect}
       onClick={() => onPlay({ id: card.id, provider: card.provider, aspect: card.aspect })}
@@ -126,77 +130,32 @@ function VerticalCarousel({
   cards: EnrichedCard[]
   onPlay: (v: OpenVideo) => void
 }) {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  // Duplicamos a lista pra permitir loop infinito sem "pulo" visível.
+  // Duplicamos a lista pra permitir loop CSS infinito sem "pulo" visivel.
+  // A animacao translada de 0 a -50% da track, voltando ao inicio da copia
+  // identica em perfeita sincronia com a primeira.
+  // Mesma abordagem do Partners: CSS-only via keyframes em transform,
+  // funciona em mobile sem depender de scrollLeft/requestAnimationFrame.
   const loopCards = [...cards, ...cards]
-
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
-
-    let paused = false
-    let resumeTimer: number | undefined
-    let raf = 0
-    let lastTs = performance.now()
-    const PIXELS_PER_SECOND = 32
-
-    const pause = (ms = 2500) => {
-      paused = true
-      window.clearTimeout(resumeTimer)
-      resumeTimer = window.setTimeout(() => { paused = false }, ms)
-    }
-
-    const tick = (ts: number) => {
-      const dt = (ts - lastTs) / 1000
-      lastTs = ts
-
-      if (!paused && el.scrollWidth > el.clientWidth) {
-        el.scrollLeft += PIXELS_PER_SECOND * dt
-        const half = el.scrollWidth / 2
-        if (el.scrollLeft >= half) el.scrollLeft -= half
-      }
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-
-    const onEnter = () => { paused = true; window.clearTimeout(resumeTimer) }
-    const onLeave = () => { paused = false }
-    const onInteract = () => pause()
-
-    el.addEventListener('mouseenter', onEnter)
-    el.addEventListener('mouseleave', onLeave)
-    el.addEventListener('focusin',    onEnter)
-    el.addEventListener('focusout',   onLeave)
-    el.addEventListener('pointerdown', onInteract)
-    el.addEventListener('wheel',       onInteract, { passive: true })
-    el.addEventListener('touchstart',  onInteract, { passive: true })
-
-    return () => {
-      cancelAnimationFrame(raf)
-      window.clearTimeout(resumeTimer)
-      el.removeEventListener('mouseenter', onEnter)
-      el.removeEventListener('mouseleave', onLeave)
-      el.removeEventListener('focusin',    onEnter)
-      el.removeEventListener('focusout',   onLeave)
-      el.removeEventListener('pointerdown', onInteract)
-      el.removeEventListener('wheel',       onInteract)
-      el.removeEventListener('touchstart',  onInteract)
-    }
-  }, [cards.length])
 
   return (
     <div
       className="portfolio-carousel"
-      ref={scrollRef}
       role="region"
       aria-label="Trabalhos verticais"
     >
-      <div className="portfolio-carousel-track">
+      {/*
+        key={cards.length} forca remount quando o filtro muda,
+        reiniciando a animacao do CSS do zero (evita que a track
+        fique em posicao estranha depois de trocar o filtro).
+      */}
+      <div className="portfolio-carousel-track" key={cards.length}>
         {loopCards.map((card, i) => (
-          <PortfolioCard key={`${card.title}-${i}`} card={card} onPlay={onPlay} />
+          <PortfolioCard
+            key={`${card.title}-${i}`}
+            card={card}
+            onPlay={onPlay}
+            ariaHidden={i >= cards.length}
+          />
         ))}
       </div>
     </div>

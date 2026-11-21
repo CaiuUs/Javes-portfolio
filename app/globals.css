@@ -525,20 +525,33 @@ button.hero-video {
 /* ——— Carrossel vertical (Shorts) ——— */
 
 .portfolio-carousel {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  overflow: hidden;
   margin-bottom: 36px;
   padding: 4px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
 }
-
-.portfolio-carousel::-webkit-scrollbar { display: none; }
 
 .portfolio-carousel-track {
   display: flex;
   gap: 18px;
   width: max-content;
+  animation: portfolio-scroll 50s linear infinite;
+  will-change: transform;
+}
+
+.portfolio-carousel:hover .portfolio-carousel-track,
+.portfolio-carousel:focus-within .portfolio-carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes portfolio-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-carousel-track { animation: none; }
 }
 
 .portfolio-carousel .portfolio-card {
