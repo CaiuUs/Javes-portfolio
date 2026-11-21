@@ -102,10 +102,10 @@ export default function Header() {
         <div className="inner site-header-inner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link href="/" aria-label="JAVES — ir para o inicio" onClick={closeMenu}>
             <Image
-              src="/svg/javes-logo-branco.svg"
-              alt="JAVES Videomarketing"
-              width={120}
-              height={26}
+              src="/svg/javes-mov-films-branco.svg"
+              alt="JAVES Mov Films"
+              width={140}
+              height={42}
               priority
             />
           </Link>

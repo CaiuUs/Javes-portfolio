@@ -8,19 +8,6 @@ interface Partner {
 }
 
 const PARTNERS: Partner[] = [
-<<<<<<< Updated upstream
-  { name: 'Real Latas',                  file: 'real-latas.jpg' },
-  { name: 'Universal Auto Center',       file: 'universal-auto-center.jpg' },
-  { name: 'Lucas Gyn — Personal Trainer', file: 'lucas-gyn.jpg' },
-  { name: 'OralFace',                    file: 'oral-face.jpg' },
-  { name: 'ZH — Casa de Carnes e Conveniência', file: 'zh-carnes.jpg' },
-  { name: 'WFIT Academia',               file: 'wfit.jpg' },
-  { name: 'Activo Contabilidade',        file: 'activo-contabilidade.jpg' },
-  { name: 'Nós & O Empresário Podcast',  file: 'nos-e-o-empresario.jpg' },
-  { name: 'Mia Bella Beauty',            file: 'mia-bella.jpg' },
-  { name: 'Nexus Studio',                file: 'nexus-studio.jpg' },
-  { name: 'Vereador Fernando Henrique',  file: 'vereador-fernando-henrique.jpg' },
-=======
   { name: 'Gazin',                              file: 'gazin.png' },
   { name: 'Real Latas',                         file: 'real-latas.png' },
   { name: 'Universal Auto Center',              file: 'universal-auto-center.png' },
@@ -38,7 +25,6 @@ const PARTNERS: Partner[] = [
   { name: 'Mia Bella Beauty',                   file: 'mia-bella.png' },
   { name: 'Nexus Studio',                       file: 'nexus-studio.png' },
   { name: 'Vereador Fernando Henrique',         file: 'vereador-fernando-henrique.png' },
->>>>>>> Stashed changes
 ]
 
 export default function Partners() {
