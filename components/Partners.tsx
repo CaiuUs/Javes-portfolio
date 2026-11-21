@@ -36,11 +36,14 @@ export default function Partners() {
     const el = scrollRef.current
     if (!el) return
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
     let paused = false
     let resumeTimer: number | undefined
     let raf = 0
     let lastTs = performance.now()
-    const PIXELS_PER_SECOND = 28
+    const PIXELS_PER_SECOND = 32
 
     const pause = (ms = 2500) => {
       paused = true
@@ -49,8 +52,9 @@ export default function Partners() {
     }
 
     const tick = (ts: number) => {
-      const dt = Math.min((ts - lastTs) / 1000, 0.1)
+      const dt = (ts - lastTs) / 1000
       lastTs = ts
+
       if (!paused && el.scrollWidth > el.clientWidth) {
         el.scrollLeft += PIXELS_PER_SECOND * dt
         const half = el.scrollWidth / 2
@@ -60,17 +64,14 @@ export default function Partners() {
     }
     raf = requestAnimationFrame(tick)
 
-    // Hover-pause so em devices com mouse real (no touch mouseleave nao dispara).
-    const hasHover = window.matchMedia('(hover: hover)').matches
-
     const onEnter = () => { paused = true; window.clearTimeout(resumeTimer) }
     const onLeave = () => { paused = false }
     const onInteract = () => pause()
 
-    if (hasHover) {
-      el.addEventListener('mouseenter', onEnter)
-      el.addEventListener('mouseleave', onLeave)
-    }
+    el.addEventListener('mouseenter', onEnter)
+    el.addEventListener('mouseleave', onLeave)
+    el.addEventListener('focusin',    onEnter)
+    el.addEventListener('focusout',   onLeave)
     el.addEventListener('pointerdown', onInteract)
     el.addEventListener('wheel',       onInteract, { passive: true })
     el.addEventListener('touchstart',  onInteract, { passive: true })
@@ -78,15 +79,15 @@ export default function Partners() {
     return () => {
       cancelAnimationFrame(raf)
       window.clearTimeout(resumeTimer)
-      if (hasHover) {
-        el.removeEventListener('mouseenter', onEnter)
-        el.removeEventListener('mouseleave', onLeave)
-      }
+      el.removeEventListener('mouseenter', onEnter)
+      el.removeEventListener('mouseleave', onLeave)
+      el.removeEventListener('focusin',    onEnter)
+      el.removeEventListener('focusout',   onLeave)
       el.removeEventListener('pointerdown', onInteract)
       el.removeEventListener('wheel',       onInteract)
       el.removeEventListener('touchstart',  onInteract)
     }
-  }, [])
+  }, [PARTNERS.length])
 
   return (
     <section className="partners-wrap" id="parceiros" aria-labelledby="parceiros-title">
