@@ -702,21 +702,32 @@ button.portfolio-card {
 
 .partners-carousel {
   margin-top: 48px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  touch-action: pan-x;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
 }
-
-.partners-carousel::-webkit-scrollbar { display: none; }
 
 .partners-carousel-track {
   display: flex;
   gap: 16px;
   width: max-content;
   padding: 4px 24px;
+  animation: partners-scroll 60s linear infinite;
+  will-change: transform;
+}
+
+.partners-carousel:hover .partners-carousel-track,
+.partners-carousel:focus-within .partners-carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes partners-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-carousel-track { animation: none; }
 }
 
 .partner-item {

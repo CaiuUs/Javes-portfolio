@@ -1,7 +1,3 @@
-'use client'
-
-import { useEffect, useRef } from 'react'
-
 interface Partner {
   name: string
   file: string
@@ -28,66 +24,10 @@ const PARTNERS: Partner[] = [
 ]
 
 export default function Partners() {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  // Duplicamos a lista pra permitir loop infinito sem "pulo" visivel.
+  // Duplicamos a lista pra permitir loop CSS infinito sem "pulo" visivel.
+  // O keyframe translada de 0 a -50% da track, voltando ao inicio da copia
+  // identica em perfeita sincronia com a primeira.
   const loopPartners = [...PARTNERS, ...PARTNERS]
-
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
-
-    let paused = false
-    let resumeTimer: number | undefined
-    let raf = 0
-    let lastTs = performance.now()
-    const PIXELS_PER_SECOND = 32
-
-    const pause = (ms = 2500) => {
-      paused = true
-      window.clearTimeout(resumeTimer)
-      resumeTimer = window.setTimeout(() => { paused = false }, ms)
-    }
-
-    const tick = (ts: number) => {
-      const dt = (ts - lastTs) / 1000
-      lastTs = ts
-
-      if (!paused && el.scrollWidth > el.clientWidth) {
-        el.scrollLeft += PIXELS_PER_SECOND * dt
-        const half = el.scrollWidth / 2
-        if (el.scrollLeft >= half) el.scrollLeft -= half
-      }
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-
-    const onEnter = () => { paused = true; window.clearTimeout(resumeTimer) }
-    const onLeave = () => { paused = false }
-    const onInteract = () => pause()
-
-    el.addEventListener('mouseenter', onEnter)
-    el.addEventListener('mouseleave', onLeave)
-    el.addEventListener('focusin',    onEnter)
-    el.addEventListener('focusout',   onLeave)
-    el.addEventListener('pointerdown', onInteract)
-    el.addEventListener('wheel',       onInteract, { passive: true })
-    el.addEventListener('touchstart',  onInteract, { passive: true })
-
-    return () => {
-      cancelAnimationFrame(raf)
-      window.clearTimeout(resumeTimer)
-      el.removeEventListener('mouseenter', onEnter)
-      el.removeEventListener('mouseleave', onLeave)
-      el.removeEventListener('focusin',    onEnter)
-      el.removeEventListener('focusout',   onLeave)
-      el.removeEventListener('pointerdown', onInteract)
-      el.removeEventListener('wheel',       onInteract)
-      el.removeEventListener('touchstart',  onInteract)
-    }
-  }, [PARTNERS.length])
 
   return (
     <section className="partners-wrap" id="parceiros" aria-labelledby="parceiros-title">
@@ -100,16 +40,19 @@ export default function Partners() {
 
       <div
         className="partners-carousel"
-        ref={scrollRef}
         role="region"
         aria-label="Logos dos parceiros"
       >
         <div className="partners-carousel-track">
           {loopPartners.map((p, i) => (
-            <div className="partner-item" key={`${p.file}-${i}`}>
+            <div
+              className="partner-item"
+              key={`${p.file}-${i}`}
+              aria-hidden={i >= PARTNERS.length ? 'true' : undefined}
+            >
               <img
                 src={`/png/parceiros/${p.file}`}
-                alt={p.name}
+                alt={i >= PARTNERS.length ? '' : p.name}
                 loading="lazy"
               />
             </div>
