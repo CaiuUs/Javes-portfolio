@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import JavesMark from './JavesMark'
 import VideoLightbox from './VideoLightbox'
 import type { Category, EnrichedCard, Provider, Aspect } from './portfolio-cards'
@@ -121,7 +121,7 @@ function PortfolioCard({
   )
 }
 
-/* ——— Carrossel vertical com auto-scroll ——— */
+/* ——— Carrossel vertical com auto-scroll + navegação manual ——— */
 
 function VerticalCarousel({
   cards,
@@ -130,24 +130,79 @@ function VerticalCarousel({
   cards: EnrichedCard[]
   onPlay: (v: OpenVideo) => void
 }) {
-  // Duplicamos a lista pra permitir loop CSS infinito sem "pulo" visivel.
-  // A animacao translada de 0 a -50% da track, voltando ao inicio da copia
-  // identica em perfeita sincronia com a primeira.
-  // Mesma abordagem do Partners: CSS-only via keyframes em transform,
-  // funciona em mobile sem depender de scrollLeft/requestAnimationFrame.
+  // Lista duplicada para loop contínuo: quando o scroll passa da metade,
+  // "voltamos" subtraindo metade da largura — sem pulo visível.
   const loopCards = [...cards, ...cards]
+  const scrollerRef = useRef<HTMLDivElement | null>(null)
+  const pausedUntilRef = useRef(0)
+  const rafRef = useRef<number | null>(null)
+  const lastTsRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    const el = scrollerRef.current
+    if (!el) return
+
+    // Respeita usuários com preferência por menos movimento.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduce) return
+
+    const SPEED = 40 // px por segundo
+    const PAUSE_MS = 2000 // tempo parado após interação antes de retomar
+
+    const pause = () => {
+      pausedUntilRef.current = performance.now() + PAUSE_MS
+    }
+
+    const tick = (ts: number) => {
+      const last = lastTsRef.current ?? ts
+      const dt = ts - last
+      lastTsRef.current = ts
+
+      if (performance.now() >= pausedUntilRef.current) {
+        const half = el.scrollWidth / 2
+        let next = el.scrollLeft + (SPEED * dt) / 1000
+        if (next >= half) next -= half
+        el.scrollLeft = next
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    // Handlers de interação — pausam o auto-scroll
+    const onPointerDown = () => pause()
+    const onWheel = () => pause()
+    const onTouchStart = () => pause()
+    const onScroll = () => {
+      // Mantém o loop infinito mesmo quando o usuário arrasta
+      const half = el.scrollWidth / 2
+      if (el.scrollLeft >= half) el.scrollLeft -= half
+      else if (el.scrollLeft <= 0) el.scrollLeft += half
+    }
+
+    el.addEventListener('pointerdown', onPointerDown)
+    el.addEventListener('wheel', onWheel, { passive: true })
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('scroll', onScroll, { passive: true })
+
+    rafRef.current = requestAnimationFrame(tick)
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      lastTsRef.current = null
+      el.removeEventListener('pointerdown', onPointerDown)
+      el.removeEventListener('wheel', onWheel)
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('scroll', onScroll)
+    }
+  }, [cards.length])
 
   return (
     <div
       className="portfolio-carousel"
       role="region"
       aria-label="Trabalhos verticais"
+      ref={scrollerRef}
     >
-      {/*
-        key={cards.length} forca remount quando o filtro muda,
-        reiniciando a animacao do CSS do zero (evita que a track
-        fique em posicao estranha depois de trocar o filtro).
-      */}
       <div className="portfolio-carousel-track" key={cards.length}>
         {loopCards.map((card, i) => (
           <PortfolioCard

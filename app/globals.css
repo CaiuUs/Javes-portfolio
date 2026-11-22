@@ -525,31 +525,22 @@ button.hero-video {
 /* ——— Carrossel vertical (Shorts) ——— */
 
 .portfolio-carousel {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   margin-bottom: 36px;
   padding: 4px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
+
+.portfolio-carousel::-webkit-scrollbar { display: none; }
 
 .portfolio-carousel-track {
   display: flex;
   gap: 18px;
   width: max-content;
-  animation: portfolio-scroll 50s linear infinite;
-  will-change: transform;
-}
-
-.portfolio-carousel:hover .portfolio-carousel-track,
-.portfolio-carousel:focus-within .portfolio-carousel-track {
-  animation-play-state: paused;
-}
-
-@keyframes portfolio-scroll {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .portfolio-carousel-track { animation: none; }
 }
 
 .portfolio-carousel .portfolio-card {
@@ -713,32 +704,24 @@ button.portfolio-card {
 
 .partners-carousel {
   margin-top: 48px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
           mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
 }
+
+.partners-carousel::-webkit-scrollbar { display: none; }
 
 .partners-carousel-track {
   display: flex;
   gap: 16px;
   width: max-content;
   padding: 4px 24px;
-  animation: partners-scroll 60s linear infinite;
-  will-change: transform;
-}
-
-.partners-carousel:hover .partners-carousel-track,
-.partners-carousel:focus-within .partners-carousel-track {
-  animation-play-state: paused;
-}
-
-@keyframes partners-scroll {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .partners-carousel-track { animation: none; }
 }
 
 .partner-item {
@@ -753,6 +736,12 @@ button.portfolio-card {
   justify-content: center;
   padding: 14px 18px;
   transition: transform 0.25s ease, background 0.25s ease;
+  cursor: grab;
+  user-select: none;
+}
+
+.partner-item:active {
+  cursor: grabbing;
 }
 
 .partner-item:hover {
@@ -767,6 +756,9 @@ button.portfolio-card {
   height: auto;
   object-fit: contain;
   display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 /* ——— Quem Somos ——— */
