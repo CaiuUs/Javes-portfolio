@@ -137,17 +137,21 @@ function VerticalCarousel({
   const pausedUntilRef = useRef(0)
   const rafRef = useRef<number | null>(null)
   const lastTsRef = useRef<number | null>(null)
+  const positionRef = useRef(0)
 
   useEffect(() => {
     const el = scrollerRef.current
     if (!el) return
 
-    // Respeita usuários com preferência por menos movimento.
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduce) return
 
-    const SPEED = 40 // px por segundo
-    const PAUSE_MS = 2000 // tempo parado após interação antes de retomar
+    const SPEED = 40
+    const PAUSE_MS = 2000
+
+    // Reset ao trocar filtro
+    positionRef.current = 0
+    el.scrollLeft = 0
 
     const pause = () => {
       pausedUntilRef.current = performance.now() + PAUSE_MS
@@ -158,25 +162,36 @@ function VerticalCarousel({
       const dt = ts - last
       lastTsRef.current = ts
 
-      if (performance.now() >= pausedUntilRef.current) {
-        const half = el.scrollWidth / 2
-        let next = el.scrollLeft + (SPEED * dt) / 1000
-        if (next >= half) next -= half
-        el.scrollLeft = next
+      const half = el.scrollWidth / 2
+      if (half > 0 && performance.now() >= pausedUntilRef.current) {
+        // Acumulador float: scrollLeft arredonda em mobile Safari e perde sub-px.
+        positionRef.current += (SPEED * dt) / 1000
+        if (positionRef.current >= half) positionRef.current -= half
+        if (positionRef.current < 0) positionRef.current += half
+        el.scrollLeft = positionRef.current
       }
 
       rafRef.current = requestAnimationFrame(tick)
     }
 
-    // Handlers de interação — pausam o auto-scroll
-    const onPointerDown = () => pause()
-    const onWheel = () => pause()
-    const onTouchStart = () => pause()
+    const pauseAndSync = () => {
+      pause()
+      positionRef.current = el.scrollLeft
+    }
+
+    const onPointerDown = () => pauseAndSync()
+    const onWheel = () => pauseAndSync()
+    const onTouchStart = () => pauseAndSync()
     const onScroll = () => {
-      // Mantém o loop infinito mesmo quando o usuário arrasta
+      if (performance.now() >= pausedUntilRef.current) return
       const half = el.scrollWidth / 2
-      if (el.scrollLeft >= half) el.scrollLeft -= half
-      else if (el.scrollLeft <= 0) el.scrollLeft += half
+      if (half <= 0) return
+      if (el.scrollLeft >= half) {
+        el.scrollLeft -= half
+      } else if (el.scrollLeft <= 0) {
+        el.scrollLeft += half
+      }
+      positionRef.current = el.scrollLeft
     }
 
     el.addEventListener('pointerdown', onPointerDown)

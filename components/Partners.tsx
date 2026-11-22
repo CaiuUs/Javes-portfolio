@@ -35,6 +35,7 @@ export default function Partners() {
   const pausedUntilRef = useRef(0)
   const rafRef = useRef<number | null>(null)
   const lastTsRef = useRef<number | null>(null)
+  const positionRef = useRef(0)
 
   useEffect(() => {
     const el = scrollerRef.current
@@ -55,23 +56,36 @@ export default function Partners() {
       const dt = ts - last
       lastTsRef.current = ts
 
-      if (performance.now() >= pausedUntilRef.current) {
-        const half = el.scrollWidth / 2
-        let next = el.scrollLeft + (SPEED * dt) / 1000
-        if (next >= half) next -= half
-        el.scrollLeft = next
+      const half = el.scrollWidth / 2
+      if (half > 0 && performance.now() >= pausedUntilRef.current) {
+        positionRef.current += (SPEED * dt) / 1000
+        if (positionRef.current >= half) positionRef.current -= half
+        if (positionRef.current < 0) positionRef.current += half
+        el.scrollLeft = positionRef.current
       }
 
       rafRef.current = requestAnimationFrame(tick)
     }
 
-    const onPointerDown = () => pause()
-    const onWheel = () => pause()
-    const onTouchStart = () => pause()
+    const pauseAndSync = () => {
+      pause()
+      positionRef.current = el.scrollLeft
+    }
+
+    const onPointerDown = () => pauseAndSync()
+    const onWheel = () => pauseAndSync()
+    const onTouchStart = () => pauseAndSync()
     const onScroll = () => {
+      // Só mexe quando o scroll é do usuário (fora da janela auto)
+      if (performance.now() >= pausedUntilRef.current) return
       const half = el.scrollWidth / 2
-      if (el.scrollLeft >= half) el.scrollLeft -= half
-      else if (el.scrollLeft <= 0) el.scrollLeft += half
+      if (half <= 0) return
+      if (el.scrollLeft >= half) {
+        el.scrollLeft -= half
+      } else if (el.scrollLeft <= 0) {
+        el.scrollLeft += half
+      }
+      positionRef.current = el.scrollLeft
     }
 
     el.addEventListener('pointerdown', onPointerDown)
