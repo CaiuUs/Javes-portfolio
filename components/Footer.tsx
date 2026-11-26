@@ -32,6 +32,7 @@ export default function Footer() {
         </ul>
 
         <p className="footer-copy">© 2026 @JAVES MOV FILMS</p>
+        <p className="footer-copy">© Developer @CebolaDev</p>
       </div>
     </footer>
   )
